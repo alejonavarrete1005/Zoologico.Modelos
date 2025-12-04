@@ -4,18 +4,17 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar solución y proyectos
-COPY Zoologico.Modelos.sln ./
+# Copiar soluciones
 COPY Zoologico.API/Zoologico.API.csproj Zoologico.API/
 COPY Zoologico.Modelo/Zoologico.Modelo.csproj Zoologico.Modelo/
 
 # Restaurar dependencias
-RUN dotnet restore Zoologico.Modelos.sln
+RUN dotnet restore Zoologico.API/Zoologico.API.csproj
 
-# Copiar todo el repositorio
+# Copiar todo el repo
 COPY . .
 
-# Compilar
+# Build
 RUN dotnet build Zoologico.API/Zoologico.API.csproj -c Release -o /app/build
 
 FROM build AS publish
