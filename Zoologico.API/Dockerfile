@@ -5,14 +5,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copiar proyectos
-COPY Zoologico.API/Zoologico.API.csproj Zoologico.API/
-COPY Zoologico.Modelo/Zoologico.Modelo.csproj Zoologico.Modelo/
+COPY ../Zoologico.API/Zoologico.API.csproj Zoologico.API/
+COPY ../Zoologico.Modelo/Zoologico.Modelo.csproj Zoologico.Modelo/
 
 # Restaurar dependencias
 RUN dotnet restore Zoologico.API/Zoologico.API.csproj
 
-# Copiar todo
-COPY . .
+# Copiar todo el repositorio
+COPY .. .
 
 # Build
 RUN dotnet build Zoologico.API/Zoologico.API.csproj -c Release -o /app/build
