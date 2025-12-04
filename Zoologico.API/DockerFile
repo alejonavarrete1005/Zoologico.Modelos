@@ -1,32 +1,27 @@
-# Imagen base para ejecución
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 10000
 
-# Imagen para compilación
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar proyecto API y Modelos
-COPY ["Zoologico.API/Zoologico.API.csproj", "Zoologico.API/"]
-COPY ["Zoologico.Modelos/Zoologico.Modelos.csproj", "Zoologico.Modelos/"]
+# Copiar proyectos
+COPY Zoologico.API/Zoologico.API.csproj Zoologico.API/
+COPY Zoologico.Modelo/Zoologico.Modelo.csproj Zoologico.Modelo/
 
 # Restaurar dependencias
-RUN dotnet restore "Zoologico.API/Zoologico.API.csproj"
+RUN dotnet restore Zoologico.API/Zoologico.API.csproj
 
-# Copiar toda la solución
+# Copiar todo
 COPY . .
 
-# Compilar API
-WORKDIR "/src/Zoologico.API"
-RUN dotnet build "Zoologico.API.csproj" -c Release -o /app/build
+# Build
+RUN dotnet build Zoologico.API/Zoologico.API.csproj -c Release -o /app/build
 
-# Publicar API
 FROM build AS publish
-RUN dotnet publish "Zoologico.API.csproj" -c Release -o /app/publish
+RUN dotnet publish Zoologico.API/Zoologico.API.csproj -c Release -o /app/publish
 
-# Imagen final para ejecución
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Zoologico.API.dll"]
+

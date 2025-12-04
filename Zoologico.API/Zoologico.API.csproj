@@ -28,11 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zoologico.Modelos\Zoologico.Modelos.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\Zoologico.Modelo\Zoologico.Modelo.csproj" />
   </ItemGroup>
 
 </Project>
